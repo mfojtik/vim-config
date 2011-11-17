@@ -1,0 +1,74 @@
+require 'rubygems'
+require 'rake'
+
+@plugins = [
+  "git://github.com/scrooloose/nerdtree.git",
+  "git://github.com/scrooloose/syntastic.git",
+  "git://github.com/tpope/vim-endwise.git",
+  "git://github.com/tpope/vim-fugitive.git",
+  "git://github.com/tpope/vim-haml.git",
+  "git://github.com/pangloss/vim-javascript.git",
+  "git://github.com/tpope/vim-markdown.git",
+  "git://github.com/fortes/vim-railscasts.git",
+  "git://github.com/vim-ruby/vim-ruby.git",
+  "git://github.com/tpope/vim-surround.git",
+  "git://github.com/tpope/vim-vividchalk.git"
+]
+
+
+namespace :plugins do
+  @plugins_dirs = lambda { |plugins| plugins.map { |p| p.split('/').last.gsub(/\.git$/, '') } }
+
+  def execute_git(operation, args)
+    if operation == :clone
+      print "Installing #{args}..."
+      $stdout.flush
+      output = %x[git clone -q #{args}]
+      puts "[ OK ]"
+    end
+    if operation == :pull
+      print "Updating #{args}..."
+      $stdout.flush
+      output = %x[cd #{args} && git pull -q]
+      puts "[ OK ]"
+    end
+  end
+
+  desc "Get latest version of pathogen"
+  task :setup do
+    print "Updating pathogen to the latest version..."
+    $stdout.flush
+    FileUtils.rm_f "#{ENV['HOME']}/.vim/autoload/pathogen.vim"
+    %x[curl -so #{ENV['HOME']}/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/HEAD/autoload/pathogen.vim]
+    puts "[ DONE ]"
+  end
+
+  desc "Install all Vim plugins"
+  task :install do
+    @plugins.each do |plugin|
+      execute_git(:clone, plugin)
+    end
+  end
+
+  desc "Uninstall all Vim plugins"
+  task :uninstall do
+    @plugins_dirs.call(@plugins).each do |plugin_dir|
+      FileUtils.rm_rf(File.join('.', plugin_dir), :verbose => true)
+    end
+  end
+
+  desc "Reinstall all Vim plugins"
+  task :reinstall do
+    Rake::Task['plugins:setup'].invoke
+    Rake::Task['plugins:uninstall'].invoke
+    Rake::Task['plugins:install'].invoke
+  end
+
+  desc "Update all installed Vim plugins"
+  task :update do
+    Rake::Task['plugins:setup'].invoke
+    @plugins_dirs.call(@plugins).each do |plugin_dir|
+      execute_git(:pull, plugin_dir)
+    end
+  end
+end
