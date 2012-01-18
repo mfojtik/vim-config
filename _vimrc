@@ -44,7 +44,7 @@ autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 set noswapfile
 
 " Long error messages which require enter drives me crazy...
-set shortmess=atIsA
+set shortmess=atIsAo
 
 " Better grep :-)
 " TODO: This require to install 'ack' command
