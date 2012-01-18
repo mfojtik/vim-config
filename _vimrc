@@ -133,4 +133,9 @@ endif
 
 if g:colors_name == "railscasts"
   highlight LineNr guifg=#aaaaaa guibg=#242424
+  highlight VertSplit guibg=#888888
+  highlight StatusLineNC guibg=#888888
 endif
+
+let g:pasta_disabled_filetypes = ['python', 'coffee', 'yaml']
+

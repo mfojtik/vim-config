@@ -12,7 +12,8 @@ require 'rake'
   "git://github.com/fortes/vim-railscasts.git",
   "git://github.com/vim-ruby/vim-ruby.git",
   "git://github.com/tpope/vim-surround.git",
-  "git://github.com/tpope/vim-vividchalk.git"
+  "git://github.com/tpope/vim-vividchalk.git",
+  "git://github.com/sickill/vim-pasta.git"
 ]
 
 
