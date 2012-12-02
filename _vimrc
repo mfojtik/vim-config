@@ -122,13 +122,21 @@ if has("gui")
   set guioptions=aevAi
   set guioptions-=Ll
 else
-  colorscheme default
+  set background=dark
+  colorscheme solarized
+  hi Normal ctermbg=black
 endif
 
 if has("gui_macvim")
-  set transparency=6
-  set guifont=Monaco:h11
-  colorscheme railscasts
+  set transparency=0
+  "set guifont=Monaco:h11
+  "set guifont=Pragmata\ TT:h13
+  set guifont=Envy\ Code\ R:h13
+  set linespace=1
+  set background=light
+  set nolazyredraw
+  let g:solarized_contrast='high'
+  colorscheme solarized
 endif
 
 if g:colors_name == "railscasts"
@@ -139,3 +147,15 @@ endif
 
 let g:pasta_disabled_filetypes = ['python', 'coffee', 'yaml']
 
+noremap <D-1> 1gt
+noremap <D-2> 2gt
+noremap <D-3> 3gt
+noremap <D-4> 4gt
+noremap <D-5> 5gt
+noremap <D-6> 6gt
+noremap <D-7> 7gt
+noremap <D-8> 8gt
+noremap <D-9> 9gt
+noremap <D-9> 10gt
+noremap <D-S-right> gt
+noremap <D-S-left> gT
